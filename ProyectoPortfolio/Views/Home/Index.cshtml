@@ -1,0 +1,38 @@
+﻿@model HomeIndexViewModel
+@{
+    //el arroba pasa de html a c#
+    ViewData["Title"] =  "Kevin Castillo  - Mi Portafolio";
+    //el model string define que se va a recibir strings
+    //mientras que el Model de abajo consume ese model
+}
+
+<partial name="_Presentacion" />
+
+<partial name ="_Habilidades" />
+
+@if (Model.Proyectos is not null){
+    <div class="text-center" style="padding-top: 6rem;">
+        <h1>Mis trabajos recientes</h1>
+        <p>Aqui puedes ver mis trabajos mas recientes</p>
+    </div>
+
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            @foreach (var proyecto in Model.Proyectos)
+            {
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="@proyecto.ImagenURL" class="card-img-top" alt="imagen de un proyecto"/>
+                        <div class="card-body">
+                            <h5 class="card-title">@proyecto.Titulo</h5>
+                            <p class="card-text">@proyecto.Descripcion</p>
+                        </div>
+                        <div class="card-footer">
+                            <a class="btn btn-primary" href="@proyecto.Link" target="_blank" rel="noreferrer noopener">Visitar</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
