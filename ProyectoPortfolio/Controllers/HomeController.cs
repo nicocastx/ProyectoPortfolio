@@ -8,10 +8,12 @@ namespace ProyectoPortfolio.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IRepositorioProyectos repositorioProyectos;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IRepositorioProyectos repositorioProyectos)
         {
             _logger = logger;
+            this.repositorioProyectos = repositorioProyectos;
         }
 
         //renderiza una vista
@@ -27,7 +29,6 @@ namespace ProyectoPortfolio.Controllers
             // HomeController y el nombre de la funcion Index
             //en view recibe de parametros el nombre de la vista y algun modelo a representar
             //return View("Index", "Roberto");
-            var repositorioProyectos = new RepositorioProyectos();
             var proyectos = repositorioProyectos.ObtenerProyectos().Take(2).ToList();
             var model = new HomeIndexViewModel()
             {
@@ -36,9 +37,10 @@ namespace ProyectoPortfolio.Controllers
             return View("Index", model);
         }
 
-        public IActionResult Privacy()
+        public IActionResult Proyectos()
         {
-            return View();
+            var proyectos = repositorioProyectos.ObtenerProyectos();
+            return View(proyectos);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
