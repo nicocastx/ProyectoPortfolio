@@ -2,6 +2,7 @@
 using ProyectoPortfolio.Models;
 using ProyectoPortfolio.Services;
 using System.Diagnostics;
+using System.Net.Mail;
 
 namespace ProyectoPortfolio.Controllers
 {
@@ -42,6 +43,26 @@ namespace ProyectoPortfolio.Controllers
             var proyectos = repositorioProyectos.ObtenerProyectos();
             return View(proyectos);
         }
+
+        //poner un get no es obligatorio, ya que se sobre entiende que se 
+        //esta hablando de una peticion get
+        //[HttpGet]
+        public IActionResult Contacto()
+        {
+            return View();
+        }
+
+        //public IActionResult Gracias()
+        //{
+        //    return View();
+        //}
+
+        //[HttpPost]
+        //public IActionResult Contacto(ContactoViewModel contactoViewModel)
+        //{
+        //    return RedirectToAction("Gracias");
+        //}
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
