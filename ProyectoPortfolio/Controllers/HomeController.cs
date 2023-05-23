@@ -2,7 +2,6 @@
 using ProyectoPortfolio.Models;
 using ProyectoPortfolio.Services;
 using System.Diagnostics;
-using System.Net.Mail;
 
 namespace ProyectoPortfolio.Controllers
 {
@@ -10,11 +9,13 @@ namespace ProyectoPortfolio.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IRepositorioProyectos repositorioProyectos;
+        private readonly IServicioEmail servicioEmail;
 
-        public HomeController(ILogger<HomeController> logger, IRepositorioProyectos repositorioProyectos)
+        public HomeController(ILogger<HomeController> logger, IRepositorioProyectos repositorioProyectos, IServicioEmail servicioEmail)
         {
             _logger = logger;
             this.repositorioProyectos = repositorioProyectos;
+            this.servicioEmail = servicioEmail;
         }
 
         //renderiza una vista
@@ -52,16 +53,24 @@ namespace ProyectoPortfolio.Controllers
             return View();
         }
 
-        //public IActionResult Gracias()
-        //{
-        //    return View();
-        //}
+        public IActionResult Gracias()
+        {
+            return View();
+        }
 
-        //[HttpPost]
-        //public IActionResult Contacto(ContactoViewModel contactoViewModel)
-        //{
-        //    return RedirectToAction("Gracias");
-        //}
+        [HttpPost]
+        public async Task<IActionResult> Contacto(ContactoViewModel contactoViewModel)
+        {
+            try
+            {
+                await servicioEmail.Enviar(contactoViewModel);
+            }
+            catch
+            {
+                throw new Exception();
+            }
+            return RedirectToAction("Gracias");
+        }
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
